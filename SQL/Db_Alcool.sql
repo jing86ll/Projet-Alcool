@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 29 sep. 2026 à 07:30
+-- Généré le : mar. 29 sep. 2026 à 08:53
 -- Version du serveur : 10.11.14-MariaDB-0ubuntu0.24.04.1
 -- Version de PHP : 8.4.21
 
@@ -119,7 +119,7 @@ INSERT INTO `User` (`id`, `name`, `weight_kg`, `gender`, `passworld`, `token`) V
 ALTER TABLE `Drink`
   ADD PRIMARY KEY (`id`),
   ADD KEY `session_id` (`session_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `Drink_ibfk_2` (`user_id`);
 
 --
 -- Index pour la table `Session`
@@ -171,13 +171,14 @@ ALTER TABLE `User`
 --
 ALTER TABLE `Drink`
   ADD CONSTRAINT `Drink_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `Session` (`id`),
-  ADD CONSTRAINT `Drink_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `Drink` (`id`);
+  ADD CONSTRAINT `Drink_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
 
 --
 -- Contraintes pour la table `session_user`
 --
 ALTER TABLE `session_user`
-  ADD CONSTRAINT `session_user_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `Session` (`id`);
+  ADD CONSTRAINT `session_user_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `Session` (`id`),
+  ADD CONSTRAINT `session_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
