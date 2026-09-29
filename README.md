@@ -4,7 +4,7 @@ https://trello.com/b/ySYtzdnq/projet-perso
 
 pour que le projet fonctionne il faut crée un fichier dbConfig.php avec cet form
 
-<?php
+?php
 // Configuration de la base de données
 
 define("DB_HOST", "");
