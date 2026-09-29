@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 29 sep. 2026 à 07:21
+-- Généré le : mar. 29 sep. 2026 à 07:30
 -- Version du serveur : 10.11.14-MariaDB-0ubuntu0.24.04.1
 -- Version de PHP : 8.4.21
 
@@ -97,16 +97,17 @@ CREATE TABLE `User` (
   `name` varchar(11) NOT NULL,
   `weight_kg` int(11) NOT NULL,
   `gender` varchar(1) NOT NULL,
-  `passworld` varchar(100) NOT NULL
+  `passworld` varchar(100) NOT NULL,
+  `token` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `User`
 --
 
-INSERT INTO `User` (`id`, `name`, `weight_kg`, `gender`, `passworld`) VALUES
-(1, 'Thomas', 75, 'H', '1234'),
-(2, 'Sarah', 60, 'F', '1234');
+INSERT INTO `User` (`id`, `name`, `weight_kg`, `gender`, `passworld`, `token`) VALUES
+(1, 'Thomas', 75, 'H', '1234', '1234'),
+(2, 'Sarah', 60, 'F', '1234', '12345');
 
 --
 -- Index pour les tables déchargées
