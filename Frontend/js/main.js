@@ -72,8 +72,6 @@ form.addEventListener('submit', (e) => {
     if (isNaN(volume) || isNaN(degre)) return;
 
     consommations.push(new Drink(volume, degre));
-    volumeInput.value = '';
-    degreInput.value = '';
     sauvegarder();
     render();
 });
