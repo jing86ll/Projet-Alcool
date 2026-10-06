@@ -53,13 +53,27 @@ function render() {
         tableBody.appendChild(tr);
     });
 
-    // Calcul du taux total
+    // Calcul du taux total avec élimination globale
     let total = 0;
-    if (!isNaN(poids) && poids > 0) {
+    if (!isNaN(poids) && poids > 0 && consommations.length > 0) {
+        
+        // 1. Somme de tous les apports bruts actuels des boissons
+        let tauxBrutTotal = 0;
         consommations.forEach(drink => {
-            total += drink.calculerTaux(poids, genre);
+            tauxBrutTotal += drink.getTauxMaxBoisson(poids, genre);
         });
+
+        // 2. Temps écoulé depuis la PREMIÈRE consommation pour l'élimination globale
+        const premiereDrink = consommations[0];
+        const heuresDepuisDebut = premiereDrink.getHeuresEcouleesDecimal();
+
+        // 3. Application de l'élimination globale du foie (0.15 g/L par heure)
+        const tauxEliminationGlobal = 0.15;
+        total = tauxBrutTotal - (tauxEliminationGlobal * heuresDepuisDebut);
     }
+
+    // Le taux ne peut jamais descendre en dessous de 0
+    total = Math.max(0, total);
     resultat.textContent = `Taux d'alcool dans le sang : ${total.toFixed(2)} g/L`;
 }
 
@@ -97,5 +111,5 @@ tableBody.addEventListener('click', (e) => {
 charger();
 render();
 
-// Mise à jour du temps écoulé chaque seconde
+// Mise à jour du temps écoulé et du taux chaque seconde
 setInterval(render, 1000);

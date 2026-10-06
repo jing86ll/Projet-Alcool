@@ -18,9 +18,33 @@ export class Drink {
     get degre() { return this.#degre; }
     get heurConso() { return this.#heurConso; }
 
-    calculerTaux(poids, genre) {
+    // Calcule uniquement l'apport brut de la boisson avec une montée en 1 minute
+    getTauxMaxBoisson(poids, genre) {
         const facteur = genre === 'homme' ? 0.7 : 0.6;
-        return (this.#volume * (this.#degre / 100) * 0.8) / (poids * facteur);
+        const tauxMax = (this.#volume * (this.#degre / 100) * 0.8) / (poids * facteur);
+        
+        const heuresEcoulees = this.getHeuresEcouleesDecimal();
+        const tempsPourPic = 0.75; // 45 min
+
+        if (heuresEcoulees < tempsPourPic) {
+            
+            return tauxMax * (heuresEcoulees / tempsPourPic);
+        }
+        
+        return tauxMax;
+    }
+
+    // Renvoie le nombre d'heures écoulées sous forme de décimal
+    getHeuresEcouleesDecimal() {
+        const now = new Date();
+        const [hours, minutes, seconds = 0] = this.#heurConso.split(':').map(Number);
+        const target = new Date(now);
+        target.setHours(hours, minutes, seconds, 0);
+
+        const diffMs = now - target;
+        if (diffMs < 0) return 0;
+
+        return diffMs / (1000 * 60 * 60);
     }
 
     getTempsEcoule() {
