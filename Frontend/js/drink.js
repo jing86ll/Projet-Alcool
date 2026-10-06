@@ -6,11 +6,11 @@ export class Drink {
     #degre = 0;
     #heurConso = "";
 
-    constructor(volume, degre) {
+    constructor(volume, degre, heure = null) {
         this.#id = Drink.compteurId++;
         this.#volume = volume;
         this.#degre = degre;
-        this.#heurConso = this.#getCurrentTime();
+        this.#heurConso = heure ?? this.#getCurrentTime();
     }
 
     get id() { return this.#id; }

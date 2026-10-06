@@ -12,6 +12,24 @@ const tableBody = document.getElementById('historiqueTableBody');
 // Liste des consommations
 const consommations = [];
 
+// Sauvegarde dans le localStorage
+function sauvegarder() {
+    const data = consommations.map(d => ({
+        volume: d.volume,
+        degre: d.degre,
+        heure: d.heurConso
+    }));
+    localStorage.setItem('conso', JSON.stringify(data));
+}
+
+// Chargement depuis le localStorage
+function charger() {
+    const data = JSON.parse(localStorage.getItem('conso')) || [];
+    data.forEach(item => {
+        consommations.push(new Drink(item.volume, item.degre, item.heure));
+    });
+}
+
 function getGenre() {
     return document.querySelector('input[name="genre"]:checked').value;
 }
@@ -56,6 +74,7 @@ form.addEventListener('submit', (e) => {
     consommations.push(new Drink(volume, degre));
     volumeInput.value = '';
     degreInput.value = '';
+    sauvegarder();
     render();
 });
 
@@ -70,10 +89,15 @@ tableBody.addEventListener('click', (e) => {
         const index = consommations.findIndex(d => d.id === id);
         if (index !== -1) {
             consommations.splice(index, 1);
+            sauvegarder();
             render();
         }
     }
 });
+
+// Chargement des données sauvegardées puis affichage
+charger();
+render();
 
 // Mise à jour du temps écoulé chaque seconde
 setInterval(render, 1000);
